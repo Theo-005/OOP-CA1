@@ -11,16 +11,21 @@ package wellbeinghealthapp;
  */
 
 import wellbeinghealthapp.mind.MindGUI;
+import wellbeinghealthapp.mind.Mood;
+import java.util.ArrayList;
 
 public class WellbeingHealthGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(WellbeingHealthGUI.class.getName());
+    
+    ArrayList<WellbeingHealth> aList;
 
     /**
      * Creates new form WellbeingHealthGUI
      */
     public WellbeingHealthGUI() {
         initComponents();
+        aList = new ArrayList<>();
     }
 
     /**
@@ -40,7 +45,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
         dateLbl = new javax.swing.JLabel();
         nameTF = new javax.swing.JTextField();
         dateTF = new javax.swing.JTextField();
-        ageTF1 = new javax.swing.JTextField();
+        ageTF = new javax.swing.JTextField();
         mindRB = new javax.swing.JRadioButton();
         fintnessRB = new javax.swing.JRadioButton();
         nutritionRB = new javax.swing.JRadioButton();
@@ -68,7 +73,8 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
 
         dateTF.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
 
-        ageTF1.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        ageTF.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        ageTF.addActionListener(this::ageTFActionPerformed);
 
         buttonGroup1.add(mindRB);
         mindRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
@@ -111,7 +117,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
                             .addComponent(dateLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(58, 58, 58)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(ageTF1, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                            .addComponent(ageTF, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                             .addComponent(nameTF)
                             .addComponent(dateTF)))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +144,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(nameLbl1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(ageTF1))
+                    .addComponent(ageTF))
                 .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(dateLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
@@ -182,6 +188,13 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
         // TODO add your handling code here:
         if (mindRB.isSelected()){
+            Mood m = new Mood(); 
+            m.setName(nameTF.getText());
+            m.setDate(dateTF.getText());
+            m.setAge(Integer.parseInt(ageTF.getText()));
+            
+            aList.add(m);
+            
             MindGUI mindUI = new MindGUI();
             mindUI.setVisible(true);
             this.dispose();
@@ -193,6 +206,10 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void ageTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ageTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ageTFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,7 +237,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField ageTF1;
+    private javax.swing.JTextField ageTF;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel dateLbl;
     private javax.swing.JTextField dateTF;

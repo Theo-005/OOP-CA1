@@ -15,8 +15,8 @@ import wellbeinghealthapp.WellbeingHealth;
 public class Journal extends WellbeingHealth{
     private String entry;
 
-    public Journal(String entry) {
-        this.entry = entry;
+    public Journal() {
+        entry = "";
     }
     
     

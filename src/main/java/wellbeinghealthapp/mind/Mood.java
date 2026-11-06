@@ -14,11 +14,11 @@ import wellbeinghealthapp.WellbeingHealth;
 public class Mood extends WellbeingHealth{
     private int mood;
 
-    public Mood(int mood) {
-        this.mood = mood;
+    public Mood() {
+        mood = 0;
     }
 
-    public Mood(int mood, String name, String date, int age) {
+    public Mood(String name, String date, int age,int mood  ) {
         super(name, date, age);
         this.mood = mood;
     }

@@ -14,8 +14,8 @@ import wellbeinghealthapp.WellbeingHealth;
 public class Sleep extends WellbeingHealth{
     private int hours;
 
-    public Sleep(int hours) {
-        this.hours = hours;
+    public Sleep() {
+        hours = 0;
     }
 
     public Sleep(int hours, String name, String date, int age) {
