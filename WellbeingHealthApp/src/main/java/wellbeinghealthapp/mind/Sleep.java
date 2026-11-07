@@ -8,6 +8,28 @@ package wellbeinghealthapp.mind;
  *
  * @author stowe
  */
-public class Sleep {
+
+import wellbeinghealthapp.WellbeingHealth;
+
+public class Sleep extends WellbeingHealth{
+    private int hours;
+
+    public Sleep() {
+        hours = 0;
+    }
+
+    public Sleep(int hours, String name, String date, int age) {
+        super(name, date, age);
+        this.hours = hours;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+    
     
 }

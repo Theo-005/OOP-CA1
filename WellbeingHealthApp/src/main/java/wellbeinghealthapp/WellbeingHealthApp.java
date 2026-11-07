@@ -11,6 +11,7 @@ package wellbeinghealthapp;
 public class WellbeingHealthApp {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        WellbeingHealthGUI mygui = new WellbeingHealthGUI();
+        mygui.setVisible(true);
     }
 }

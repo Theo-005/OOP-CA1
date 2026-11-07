@@ -4,10 +4,35 @@
  */
 package wellbeinghealthapp.mind;
 
+
 /**
  *
  * @author stowe
  */
-public class Journal {
+
+import wellbeinghealthapp.WellbeingHealth;
+
+public class Journal extends WellbeingHealth{
+    private String entry;
+
+    public Journal() {
+        entry = "";
+    }
+    
+    
+
+    public Journal(String entry, String name, String date, int age) {
+        super(name, date, age);
+        this.entry = entry;
+    }
+
+    public String getEntry() {
+        return entry;
+    }
+
+    public void setEntry(String entry) {
+        this.entry = entry;
+    }
+    
     
 }
