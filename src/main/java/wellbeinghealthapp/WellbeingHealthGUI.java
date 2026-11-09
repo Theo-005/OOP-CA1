@@ -14,6 +14,7 @@ import Nutrition.NutritionGUI;
 import wellbeinghealthapp.mind.MindGUI;
 import wellbeinghealthapp.mind.Mood;
 import java.util.ArrayList;
+import wellbeinghealthapp.fitness.FitnessGUI;
 
 public class WellbeingHealthGUI extends javax.swing.JFrame {
     
@@ -48,7 +49,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
         dateTF = new javax.swing.JTextField();
         ageTF = new javax.swing.JTextField();
         mindRB = new javax.swing.JRadioButton();
-        fintnessRB = new javax.swing.JRadioButton();
+        fitnessRB = new javax.swing.JRadioButton();
         nutritionRB = new javax.swing.JRadioButton();
         exitBtn = new javax.swing.JButton();
         enterBtn = new javax.swing.JButton();
@@ -82,9 +83,9 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
         mindRB.setText("Mind");
         mindRB.addActionListener(this::mindRBActionPerformed);
 
-        buttonGroup1.add(fintnessRB);
-        fintnessRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        fintnessRB.setText("Fitness");
+        buttonGroup1.add(fitnessRB);
+        fitnessRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        fitnessRB.setText("Fitness");
 
         buttonGroup1.add(nutritionRB);
         nutritionRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
@@ -126,7 +127,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(mindRB)
                             .addGap(83, 83, 83)
-                            .addComponent(fintnessRB))))
+                            .addComponent(fitnessRB))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(enterBtn, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -153,7 +154,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
                 .addGap(63, 63, 63)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mindRB)
-                    .addComponent(fintnessRB)
+                    .addComponent(fitnessRB)
                     .addComponent(nutritionRB))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -260,7 +261,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
     private javax.swing.JTextField dateTF;
     private javax.swing.JButton enterBtn;
     private javax.swing.JButton exitBtn;
-    private javax.swing.JRadioButton fintnessRB;
+    private javax.swing.JRadioButton fitnessRB;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton mindRB;
     private javax.swing.JLabel nameLbl;
