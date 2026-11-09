@@ -208,6 +208,14 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
 
             this.dispose();
         }
+
+        if (fitnessRB.isSelected()) {
+                   
+            FitnessGUI fitnessUI = new FitnessGUI();
+            fitnessUI.setVisible(true);
+            this.dispose();
+            
+        }
         
     }//GEN-LAST:event_enterBtnActionPerformed
 
