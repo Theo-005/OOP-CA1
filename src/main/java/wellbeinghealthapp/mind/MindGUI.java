@@ -4,6 +4,8 @@
  */
 package wellbeinghealthapp.mind;
 
+import wellbeinghealthapp.WellbeingHealthGUI;
+
 /**
  *
  * @author stowe
@@ -92,7 +94,7 @@ public class MindGUI extends javax.swing.JFrame {
 
         mExitBtn.setBackground(new java.awt.Color(204, 255, 204));
         mExitBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        mExitBtn.setText("EXIT");
+        mExitBtn.setText("BACK");
         mExitBtn.addActionListener(this::mExitBtnActionPerformed);
 
         mEnterBtn.setBackground(new java.awt.Color(204, 255, 204));
@@ -219,7 +221,9 @@ public class MindGUI extends javax.swing.JFrame {
 
     private void mExitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mExitBtnActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        WellbeingHealthGUI mygui = new WellbeingHealthGUI();
+        mygui.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_mExitBtnActionPerformed
 
     /**
