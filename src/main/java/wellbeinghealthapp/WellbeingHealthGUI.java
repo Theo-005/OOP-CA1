@@ -189,12 +189,12 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
         // TODO add your handling code here:
         if (mindRB.isSelected()){
-            Mood m = new Mood(); 
-            m.setName(nameTF.getText());
-            m.setDate(dateTF.getText());
-            m.setAge(Integer.parseInt(ageTF.getText()));
-            
-            aList.add(m);
+//            Mood m = new Mood(); 
+//            m.setName(nameTF.getText());
+//            m.setDate(dateTF.getText());
+//            m.setAge(Integer.parseInt(ageTF.getText()));
+//            
+//            aList.add(m);
             
             MindGUI mindUI = new MindGUI();
             mindUI.setVisible(true);
