@@ -201,9 +201,11 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             this.dispose();
         }
         
-        if (nutritionRB.isSelected()){
-            NutritionGUI nutritionGUI = new NutritionGUI();
-            nutritionGUI.setVisible(true);
+        if (nutritionRB.isSelected()) {
+
+            NutritionGUI nutritionUI = new NutritionGUI();
+            nutritionUI.setVisible(true);
+
             this.dispose();
         }
         
