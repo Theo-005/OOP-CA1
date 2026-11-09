@@ -10,6 +10,7 @@ package wellbeinghealthapp;
  * @author stowe
  */
 
+import Nutrition.NutritionGUI;
 import wellbeinghealthapp.mind.MindGUI;
 import wellbeinghealthapp.mind.Mood;
 import java.util.ArrayList;
@@ -197,6 +198,12 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             
             MindGUI mindUI = new MindGUI();
             mindUI.setVisible(true);
+            this.dispose();
+        }
+        
+        if (nutritionRB.isSelected()){
+            NutritionGUI nutritionGUI = new NutritionGUI();
+            nutritionGUI.setVisible(true);
             this.dispose();
         }
         
