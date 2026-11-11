@@ -1,3 +1,4 @@
+wellbeinghealthapp\Nutrition\NutritionGUI$1.class
 wellbeinghealthapp\WellbeingHealth.class
 wellbeinghealthapp\fitness\Workout.class
 wellbeinghealthapp\mind\Journal.class
@@ -5,12 +6,11 @@ wellbeinghealthapp\mind\Mood.class
 wellbeinghealthapp\mind\MindGUI.class
 wellbeinghealthapp\WellbeingHealthApp.class
 wellbeinghealthapp\mind\Sleep.class
-Nutrition\NutritionGUI.class
 wellbeinghealthapp\WellbeingHealthGUI.class
-Nutrition\NutritionGUI$1.class
 wellbeinghealthapp\fitness\FitnessGUI.class
-Nutrition\Meal_Log.class
+wellbeinghealthapp\Nutrition\Meal_Log.class
+wellbeinghealthapp\Nutrition\Tracker.class
+wellbeinghealthapp\Nutrition\Goal.class
+wellbeinghealthapp\Nutrition\NutritionGUI.class
 wellbeinghealthapp\fitness\Steps.class
-Nutrition\Goal.class
-Nutrition\Tracker.class
 wellbeinghealthapp\fitness\HeartRate.class

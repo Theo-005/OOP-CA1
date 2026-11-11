@@ -10,7 +10,7 @@ package wellbeinghealthapp;
  * @author stowe
  */
 
-import Nutrition.NutritionGUI;
+import wellbeinghealthapp.Nutrition.NutritionGUI;
 import wellbeinghealthapp.mind.MindGUI;
 import wellbeinghealthapp.mind.Mood;
 import java.util.ArrayList;
