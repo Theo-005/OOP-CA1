@@ -9,19 +9,15 @@ package wellbeinghealthapp.Nutrition;
  * @author karlw
  */
 public class Meal_Log {
-    private String breakfast;
-    private String lunch;
-    private String dinner;
+    private String meal;
     private double cals;
     private double pro;
     private double fib;
     private double fat;
     private double carbs;
 
-    public Meal_Log(String breakfast, String lunch, String dinner, double cals, double pro, double fib, double fat, double carbs) {
-        this.breakfast = breakfast;
-        this.lunch = lunch;
-        this.dinner = dinner;
+    public Meal_Log(String meal, double cals, double pro, double fib, double fat, double carbs) {
+        this.meal = meal;
         this.cals = cals;
         this.pro = pro;
         this.fib = fib;
@@ -29,31 +25,12 @@ public class Meal_Log {
         this.carbs = carbs;
     }
 
-   
-
-    
-    public String getBreakfast() {
-        return breakfast;
+    public String getMeal() {
+        return meal;
     }
 
-    public void setBreakfast(String breakfast) {
-        this.breakfast = breakfast;
-    }
-
-    public String getLunch() {
-        return lunch;
-    }
-
-    public void setLunch(String lunch) {
-        this.lunch = lunch;
-    }
-
-    public String getDinner() {
-        return dinner;
-    }
-
-    public void setDinner(String dinner) {
-        this.dinner = dinner;
+    public void setMeal(String meal) {
+        this.meal = meal;
     }
 
     public double getCals() {
@@ -95,6 +72,7 @@ public class Meal_Log {
     public void setCarbs(double carbs) {
         this.carbs = carbs;
     }
-    
+
+  
     
 }
