@@ -8,6 +8,32 @@ package wellbeinghealthapp.fitness;
  *
  * @author seanm
  */
-public class Workout {
+
+import wellbeinghealthapp.WellbeingHealth;
+
+public class Workout extends WellbeingHealth {
     
+    private int stepsTaken;
+    private int stepsTarget;
+    private boolean syncStatus;
+    
+    public Workout(String name, String date, int age, int stepsTaken, int stepsTarget, boolean syncStatus) {
+        super(name, date, age);
+                
+        this.stepsTaken = stepsTaken;
+        this.stepsTarget = stepsTarget;
+        this.syncStatus = syncStatus;
+    }
+
+    public int getStepsTaken() {
+        return stepsTaken;
+    }
+
+    public int getStepsTarget() {
+        return stepsTarget;
+    }
+
+    public boolean isSyncStatus() {
+        return syncStatus;
+    }  
 }

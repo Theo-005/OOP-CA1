@@ -41,7 +41,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         duringLabel = new javax.swing.JLabel();
         afterLabel = new javax.swing.JLabel();
         submitHR = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        hrSeparator = new javax.swing.JSeparator();
         workoutLabel = new javax.swing.JLabel();
         exerciseLabel = new javax.swing.JLabel();
         exerciseInput = new javax.swing.JTextField();
@@ -58,11 +58,12 @@ public class FitnessGUI extends javax.swing.JFrame {
         targetInput = new javax.swing.JTextField();
         stepsInput = new javax.swing.JTextField();
         watchLabel = new javax.swing.JLabel();
-        watchRByes = new javax.swing.JRadioButton();
-        watchRBno = new javax.swing.JRadioButton();
         stepsSeparator = new javax.swing.JSeparator();
         returnToMenu = new javax.swing.JButton();
         clearAll = new javax.swing.JButton();
+        watchOption = new javax.swing.JComboBox<>();
+        submitSteps = new javax.swing.JButton();
+        showData = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,11 +140,6 @@ public class FitnessGUI extends javax.swing.JFrame {
 
         watchLabel.setText("Sync with Smartwatch?");
 
-        watchRByes.setText("Yes");
-        watchRByes.addActionListener(this::watchRByesActionPerformed);
-
-        watchRBno.setText("No");
-
         returnToMenu.setText("Return to Menu");
         returnToMenu.setPreferredSize(new java.awt.Dimension(113, 42));
         returnToMenu.addActionListener(this::returnToMenuActionPerformed);
@@ -154,12 +150,20 @@ public class FitnessGUI extends javax.swing.JFrame {
         clearAll.setPreferredSize(new java.awt.Dimension(129, 42));
         clearAll.addActionListener(this::clearAllActionPerformed);
 
+        watchOption.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yes", "No" }));
+        watchOption.addActionListener(this::watchOptionActionPerformed);
+
+        submitSteps.setText("Submit");
+        submitSteps.addActionListener(this::submitStepsActionPerformed);
+
+        showData.setText("Show Data");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(separatorHR)
-            .addComponent(jSeparator1)
+            .addComponent(hrSeparator)
             .addComponent(workoutSeparator)
             .addComponent(stepsSeparator)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -211,10 +215,8 @@ public class FitnessGUI extends javax.swing.JFrame {
                                 .addComponent(watchLabel))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(stepsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(watchRByes)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(watchRBno))))
+                                .addGap(72, 72, 72)
+                                .addComponent(watchOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -230,16 +232,22 @@ public class FitnessGUI extends javax.swing.JFrame {
                                 .addComponent(setsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(exerciseInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(returnToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(clearAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(routineAppend, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(routineDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                        .addComponent(routineDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(submitSteps)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(returnToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(showData, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(clearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +270,7 @@ public class FitnessGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(submitHR)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hrSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(workoutLabel)
                 .addGap(18, 18, 18)
@@ -293,15 +301,17 @@ public class FitnessGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stepsLabel)
                     .addComponent(stepsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(watchRByes)
-                    .addComponent(watchRBno))
+                    .addComponent(watchOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(submitSteps)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stepsSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(returnToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                    .addComponent(clearAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -330,10 +340,6 @@ public class FitnessGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_routineDeleteActionPerformed
 
-    private void watchRByesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchRByesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_watchRByesActionPerformed
-
     private void returnToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMenuActionPerformed
         WellbeingHealthGUI main = new WellbeingHealthGUI();
         main.setVisible(true);
@@ -342,6 +348,14 @@ public class FitnessGUI extends javax.swing.JFrame {
     private void clearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_clearAllActionPerformed
+
+    private void watchOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOptionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_watchOptionActionPerformed
+
+    private void submitStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitStepsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submitStepsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,8 +393,8 @@ public class FitnessGUI extends javax.swing.JFrame {
     private javax.swing.JTextField hrBeforeInput;
     private javax.swing.JTextField hrDuringInput;
     private javax.swing.JLabel hrLabel;
+    private javax.swing.JSeparator hrSeparator;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField repsInput;
     private javax.swing.JLabel repsLabel;
     private javax.swing.JButton returnToMenu;
@@ -389,17 +403,18 @@ public class FitnessGUI extends javax.swing.JFrame {
     private javax.swing.JSeparator separatorHR;
     private javax.swing.JTextField setsInput;
     private javax.swing.JLabel setsLabel;
+    private javax.swing.JButton showData;
     private javax.swing.JTextField stepsInput;
     private javax.swing.JLabel stepsLabel;
     private javax.swing.JSeparator stepsSeparator;
     private javax.swing.JLabel stepsTitle;
     private javax.swing.JButton submitHR;
+    private javax.swing.JButton submitSteps;
     private javax.swing.JTextField targetInput;
     private javax.swing.JLabel targetLabel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JLabel watchLabel;
-    private javax.swing.JRadioButton watchRBno;
-    private javax.swing.JRadioButton watchRByes;
+    private javax.swing.JComboBox<String> watchOption;
     private javax.swing.JLabel workoutLabel;
     private javax.swing.JSeparator workoutSeparator;
     // End of variables declaration//GEN-END:variables
