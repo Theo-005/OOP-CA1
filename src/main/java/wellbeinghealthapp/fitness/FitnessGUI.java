@@ -5,6 +5,7 @@
 package wellbeinghealthapp.fitness;
 
 import wellbeinghealthapp.WellbeingHealthGUI;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,7 +14,21 @@ import wellbeinghealthapp.WellbeingHealthGUI;
 public class FitnessGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FitnessGUI.class.getName());
-
+    
+    String name, date;
+    int age;
+    
+    int hrBefore, hrDuring, hrAfter;
+    String hrTrend, hrOutput;
+    
+    
+    String[] routine;
+    String workout;
+    int reps, sets;
+    
+    int stepsTaken, stepsTarget;
+    boolean syncStatus;
+            
     /**
      * Creates new form FitnessGUI
      */
@@ -81,6 +96,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         hrAfterInput.setPreferredSize(new java.awt.Dimension(74, 22));
 
         hrBeforeInput.setPreferredSize(new java.awt.Dimension(74, 22));
+        hrBeforeInput.addActionListener(this::hrBeforeInputActionPerformed);
 
         beforeLabel.setText("Before");
 
@@ -89,6 +105,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         afterLabel.setText("After");
 
         submitHR.setText("Submit Heart Rates");
+        submitHR.addActionListener(this::submitHRActionPerformed);
 
         workoutLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         workoutLabel.setText("Workouts:");
@@ -140,11 +157,11 @@ public class FitnessGUI extends javax.swing.JFrame {
 
         watchLabel.setText("Sync with Smartwatch?");
 
-        returnToMenu.setText("Return to Menu");
+        returnToMenu.setText("Main Menu");
         returnToMenu.setPreferredSize(new java.awt.Dimension(113, 42));
         returnToMenu.addActionListener(this::returnToMenuActionPerformed);
 
-        clearAll.setText("Clear All");
+        clearAll.setText("Clear Fields");
         clearAll.setMaximumSize(new java.awt.Dimension(113, 42));
         clearAll.setMinimumSize(new java.awt.Dimension(113, 42));
         clearAll.setPreferredSize(new java.awt.Dimension(129, 42));
@@ -156,7 +173,8 @@ public class FitnessGUI extends javax.swing.JFrame {
         submitSteps.setText("Submit");
         submitSteps.addActionListener(this::submitStepsActionPerformed);
 
-        showData.setText("Show Data");
+        showData.setText("Show Log");
+        showData.addActionListener(this::showDataActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -346,7 +364,10 @@ public class FitnessGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_returnToMenuActionPerformed
 
     private void clearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllActionPerformed
-        // TODO add your handling code here:
+        // Clear all text fields and set menus to defaults
+        hrBeforeInput.setText("");
+        hrDuringInput.setText("");
+        hrAfterInput.setText("");
     }//GEN-LAST:event_clearAllActionPerformed
 
     private void watchOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOptionActionPerformed
@@ -356,6 +377,30 @@ public class FitnessGUI extends javax.swing.JFrame {
     private void submitStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitStepsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_submitStepsActionPerformed
+
+    private void hrBeforeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrBeforeInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_hrBeforeInputActionPerformed
+
+    private void submitHRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitHRActionPerformed
+        hrBefore = Integer.parseInt(hrBeforeInput.getText());
+        hrDuring = Integer.parseInt(hrDuringInput.getText());
+        hrAfter = Integer.parseInt(hrAfterInput.getText());
+        
+        HeartRate hr = new HeartRate(name, date, age, hrBefore, hrDuring, hrAfter, hrTrend);
+        hrOutput = hr.createHrReport();
+        
+        JOptionPane.showMessageDialog(null, "Heart rates successfully appended to your log.");
+        
+        // Clear text fields after submission
+        hrBeforeInput.setText("");
+        hrDuringInput.setText("");
+        hrAfterInput.setText("");
+    }//GEN-LAST:event_submitHRActionPerformed
+
+    private void showDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDataActionPerformed
+        JOptionPane.showMessageDialog(null, "HEART RATE DATA:\n\n" + hrOutput);
+    }//GEN-LAST:event_showDataActionPerformed
 
     /**
      * @param args the command line arguments

@@ -13,12 +13,12 @@ import wellbeinghealthapp.WellbeingHealth;
 
 public class HeartRate extends WellbeingHealth {
     
-    private int hrBefore;
-    private int hrDuring;
-    private int hrAfter;
-    private double trend;
+    protected int hrBefore;
+    protected int hrDuring;
+    protected int hrAfter;
+    protected String trend;
     
-    public HeartRate(String name, String date, int age, int hrBefore, int hrDuring, int hrAfter, double trend) {
+    public HeartRate(String name, String date, int age, int hrBefore, int hrDuring, int hrAfter, String trend) {
         super(name, date, age);
         
         this.hrBefore = hrBefore;
@@ -26,20 +26,20 @@ public class HeartRate extends WellbeingHealth {
         this.hrAfter = hrAfter;
         this.trend = trend;
     }
-
-    public int getHrBefore() {
-        return hrBefore;
-    }
-
-    public int getHrDuring() {
-        return hrDuring;
-    }
-
-    public int getHrAfter() {
-        return hrAfter;
-    }
-
-    public double getTrend() {
-        return trend;
+    
+    
+    public final String createHrReport() {
+        String hrOutput;
+        
+        if (hrBefore < hrAfter) {
+            trend = "Upwards";
+        } else if (hrBefore == hrAfter) {
+            trend = "No Change";
+        } else {
+            trend = "Downwards";
+        }
+        
+        hrOutput = "Before: " + hrBefore + "\nDuring: " + hrDuring + "\nAfter: " + hrAfter + "\nTrend: " + trend;
+        return hrOutput;
     }
 }

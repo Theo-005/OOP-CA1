@@ -282,6 +282,9 @@
               <Dimension value="[74, 22]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hrBeforeInputActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="beforeLabel">
           <Properties>
@@ -302,6 +305,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Submit Heart Rates"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitHRActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="hrSeparator">
         </Component>
@@ -456,7 +462,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="returnToMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Return to Menu"/>
+            <Property name="text" type="java.lang.String" value="Main Menu"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[113, 42]"/>
             </Property>
@@ -467,7 +473,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="clearAll">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Clear All"/>
+            <Property name="text" type="java.lang.String" value="Clear Fields"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[113, 42]"/>
             </Property>
@@ -508,8 +514,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="showData">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Show Data"/>
+            <Property name="text" type="java.lang.String" value="Show Log"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showDataActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

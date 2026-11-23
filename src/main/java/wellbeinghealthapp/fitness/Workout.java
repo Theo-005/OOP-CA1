@@ -13,27 +13,35 @@ import wellbeinghealthapp.WellbeingHealth;
 
 public class Workout extends WellbeingHealth {
     
-    private int stepsTaken;
-    private int stepsTarget;
-    private boolean syncStatus;
+    protected String[] routine;
+    protected String workout;
+    protected int reps;
+    protected int sets;
     
-    public Workout(String name, String date, int age, int stepsTaken, int stepsTarget, boolean syncStatus) {
+    public Workout(String name, String date, int age, String[] routine, String workout, int reps, int sets) {
         super(name, date, age);
-                
-        this.stepsTaken = stepsTaken;
-        this.stepsTarget = stepsTarget;
-        this.syncStatus = syncStatus;
+        
+        this.routine = routine;
+        this.workout = workout;
+        this.reps = reps;
+        this.sets = sets;
+    }
+    
+    
+    
+    public String[] getRoutine() {
+        return routine;
     }
 
-    public int getStepsTaken() {
-        return stepsTaken;
+    public String getWorkout() {
+        return workout;
     }
 
-    public int getStepsTarget() {
-        return stepsTarget;
+    public int getReps() {
+        return reps;
     }
 
-    public boolean isSyncStatus() {
-        return syncStatus;
-    }  
+    public int getSets() {
+        return sets;
+    }
 }
