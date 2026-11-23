@@ -218,8 +218,11 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
         }
 
         if (fitnessRB.isSelected()) {
-                   
+            
             FitnessGUI fitnessUI = new FitnessGUI();
+            fitnessUI.setName(nameTF.getText());
+            fitnessUI.setDate(dateTF.getText());
+            fitnessUI.setAge(Integer.parseInt(ageTF.getText()));
             fitnessUI.setVisible(true);
             this.dispose();
             
