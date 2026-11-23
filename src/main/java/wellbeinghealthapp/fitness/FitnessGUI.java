@@ -4,8 +4,9 @@
  */
 package wellbeinghealthapp.fitness;
 
-import wellbeinghealthapp.WellbeingHealthGUI;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import wellbeinghealthapp.WellbeingHealthGUI;
 
 /**
  *
@@ -18,16 +19,17 @@ public class FitnessGUI extends javax.swing.JFrame {
     String name, date;
     int age;
     
+    
+    
     int hrBefore, hrDuring, hrAfter;
     String hrTrend, hrOutput;
     
-    
-    String[] routine;
-    String workout;
-    int reps, sets;
+    ArrayList<String> routine = new ArrayList<String>();
+    String workout, reps, sets, workoutOutput;
     
     int stepsTaken, stepsTarget;
     boolean syncStatus;
+    String stepsOutput;
             
     /**
      * Creates new form FitnessGUI
@@ -65,7 +67,6 @@ public class FitnessGUI extends javax.swing.JFrame {
         setsLabel = new javax.swing.JLabel();
         setsInput = new javax.swing.JTextField();
         routineAppend = new javax.swing.JButton();
-        routineDelete = new javax.swing.JButton();
         workoutSeparator = new javax.swing.JSeparator();
         stepsTitle = new javax.swing.JLabel();
         targetLabel = new javax.swing.JLabel();
@@ -133,12 +134,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         routineAppend.setMaximumSize(new java.awt.Dimension(135, 22));
         routineAppend.setMinimumSize(new java.awt.Dimension(135, 22));
         routineAppend.setPreferredSize(new java.awt.Dimension(135, 22));
-
-        routineDelete.setText("Delete Routine");
-        routineDelete.setMaximumSize(new java.awt.Dimension(127, 22));
-        routineDelete.setMinimumSize(new java.awt.Dimension(127, 22));
-        routineDelete.setPreferredSize(new java.awt.Dimension(127, 22));
-        routineDelete.addActionListener(this::routineDeleteActionPerformed);
+        routineAppend.addActionListener(this::routineAppendActionPerformed);
 
         stepsTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         stepsTitle.setText("Steps:");
@@ -161,7 +157,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         returnToMenu.setPreferredSize(new java.awt.Dimension(113, 42));
         returnToMenu.addActionListener(this::returnToMenuActionPerformed);
 
-        clearAll.setText("Clear Fields");
+        clearAll.setText("Delete Log");
         clearAll.setMaximumSize(new java.awt.Dimension(113, 42));
         clearAll.setMinimumSize(new java.awt.Dimension(113, 42));
         clearAll.setPreferredSize(new java.awt.Dimension(129, 42));
@@ -184,6 +180,14 @@ public class FitnessGUI extends javax.swing.JFrame {
             .addComponent(hrSeparator)
             .addComponent(workoutSeparator)
             .addComponent(stepsSeparator)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(returnToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(showData, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(clearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -250,22 +254,12 @@ public class FitnessGUI extends javax.swing.JFrame {
                                 .addComponent(setsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(exerciseInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(routineAppend, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(routineDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(162, 162, 162)
-                        .addComponent(submitSteps)))
+                        .addComponent(submitSteps))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(routineAppend, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(returnToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(showData, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(clearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,9 +296,7 @@ public class FitnessGUI extends javax.swing.JFrame {
                     .addComponent(setsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(setsLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(routineAppend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(routineDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(routineAppend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(workoutSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -354,20 +346,41 @@ public class FitnessGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_exerciseInputActionPerformed
 
-    private void routineDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routineDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_routineDeleteActionPerformed
-
     private void returnToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnToMenuActionPerformed
         WellbeingHealthGUI main = new WellbeingHealthGUI();
         main.setVisible(true);
+        
+        this.dispose();
     }//GEN-LAST:event_returnToMenuActionPerformed
 
     private void clearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearAllActionPerformed
-        // Clear all text fields and set menus to defaults
+        // Clear the whole log and clear all text fields
         hrBeforeInput.setText("");
         hrDuringInput.setText("");
         hrAfterInput.setText("");
+        
+        exerciseInput.setText("");
+        repsInput.setText("");
+        setsInput.setText("");
+        
+        targetInput.setText("");
+        stepsInput.setText("");
+        
+        hrBefore = 0;
+        hrDuring = 0;
+        hrAfter = 0;
+        hrTrend = "";
+        hrOutput = "";
+        workout = "";
+        reps = "";
+        sets = "";
+        workoutOutput = "";
+        stepsTarget = 0;
+        stepsTaken = 0;
+        syncStatus = false;
+        stepsOutput = "";
+        routine.clear();
+        
     }//GEN-LAST:event_clearAllActionPerformed
 
     private void watchOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_watchOptionActionPerformed
@@ -387,8 +400,8 @@ public class FitnessGUI extends javax.swing.JFrame {
         hrDuring = Integer.parseInt(hrDuringInput.getText());
         hrAfter = Integer.parseInt(hrAfterInput.getText());
         
-        HeartRate hr = new HeartRate(name, date, age, hrBefore, hrDuring, hrAfter, hrTrend);
-        hrOutput = hr.createHrReport();
+        HeartRate myHr = new HeartRate(name, date, age, hrBefore, hrDuring, hrAfter, hrTrend);
+        hrOutput = myHr.createHrReport();
         
         JOptionPane.showMessageDialog(null, "Heart rates successfully appended to your log.");
         
@@ -396,11 +409,36 @@ public class FitnessGUI extends javax.swing.JFrame {
         hrBeforeInput.setText("");
         hrDuringInput.setText("");
         hrAfterInput.setText("");
+        
     }//GEN-LAST:event_submitHRActionPerformed
 
     private void showDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDataActionPerformed
-        JOptionPane.showMessageDialog(null, "HEART RATE DATA:\n\n" + hrOutput);
+        if (hrOutput != null && !"".equals(hrOutput)) {
+            JOptionPane.showMessageDialog(null, "HEART RATE DATA:\n\n" + hrOutput);
+        } else {
+            JOptionPane.showMessageDialog(null, "An error has a occurred:\nFitness tracker is empty. Add some data first.");
+        }
+        
+        for(int i = 0; i < routine.size(); i++) {
+            JOptionPane.showMessageDialog(null, "WORKOUT " + (i + 1) + ":\n\n" + routine.get(i));
+        }
     }//GEN-LAST:event_showDataActionPerformed
+
+    private void routineAppendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routineAppendActionPerformed
+        workout = exerciseInput.getText();
+        reps = repsInput.getText();
+        sets = setsInput.getText();
+        
+        Workout myWorkout = new Workout(name, date, age, workout, reps, sets);
+        routine.add(myWorkout.createWorkoutReport());
+        JOptionPane.showMessageDialog(null, "Exercise successfully added to your log.\nTo add another, enter details of new exercise.");
+        
+        
+        // Clear text fields after submission
+        exerciseInput.setText("");
+        repsInput.setText("");
+        setsInput.setText("");
+    }//GEN-LAST:event_routineAppendActionPerformed
 
     /**
      * @param args the command line arguments
@@ -444,7 +482,6 @@ public class FitnessGUI extends javax.swing.JFrame {
     private javax.swing.JLabel repsLabel;
     private javax.swing.JButton returnToMenu;
     private javax.swing.JButton routineAppend;
-    private javax.swing.JButton routineDelete;
     private javax.swing.JSeparator separatorHR;
     private javax.swing.JTextField setsInput;
     private javax.swing.JLabel setsLabel;
