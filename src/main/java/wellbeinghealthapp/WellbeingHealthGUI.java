@@ -13,6 +13,7 @@ package wellbeinghealthapp;
 import wellbeinghealthapp.Nutrition.NutritionGUI;
 import wellbeinghealthapp.mind.MindGUI;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import wellbeinghealthapp.fitness.FitnessGUI;
 
 public class WellbeingHealthGUI extends javax.swing.JFrame {
@@ -219,13 +220,22 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
 
         if (fitnessRB.isSelected()) {
             
+            if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
+            }
+            
             FitnessGUI fitnessUI = new FitnessGUI();
             fitnessUI.setName(nameTF.getText());
             fitnessUI.setDate(dateTF.getText());
             fitnessUI.setAge(Integer.parseInt(ageTF.getText()));
+            
             fitnessUI.setVisible(true);
             this.dispose();
             
+        }
+        
+        if (!fitnessRB.isSelected() && !mindRB.isSelected() && !nutritionRB.isSelected()) {
+            JOptionPane.showMessageDialog(null, "Please select a log type");
         }
         
     }//GEN-LAST:event_enterBtnActionPerformed
