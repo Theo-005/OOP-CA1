@@ -198,14 +198,16 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
         // TODO add your handling code here:
         if (mindRB.isSelected()){
-//            Mood m = new Mood(); 
-//            m.setName(nameTF.getText());
-//            m.setDate(dateTF.getText());
-//            m.setAge(Integer.parseInt(ageTF.getText()));
-//            
-//            aList.add(m);
+            
+            if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
+            }
             
             MindGUI mindUI = new MindGUI();
+            WellbeingHealth wh = new WellbeingHealth();
+            wh.setName(nameTF.getText());
+            wh.setDate(dateTF.getText());
+            wh.setAge(Integer.parseInt(ageTF.getText()));
             mindUI.setVisible(true);
             this.dispose();
         }

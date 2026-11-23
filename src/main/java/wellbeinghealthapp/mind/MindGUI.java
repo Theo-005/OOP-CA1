@@ -4,6 +4,7 @@
  */
 package wellbeinghealthapp.mind;
 
+import java.util.ArrayList;
 import wellbeinghealthapp.WellbeingHealthGUI;
 
 /**
@@ -13,6 +14,7 @@ import wellbeinghealthapp.WellbeingHealthGUI;
 public class MindGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MindGUI.class.getName());
+    private ArrayList<Mood> mList = new ArrayList<>();
 
     /**
      * Creates new form MindGUI
