@@ -39,7 +39,7 @@ public class HeartRate extends WellbeingHealth {
             trend = "Downwards";
         }
         
-        hrOutput = "Before: " + hrBefore + "\nDuring: " + hrDuring + "\nAfter: " + hrAfter + "\nTrend: " + trend;
+        hrOutput = "YOUR HEART RATE:\n\nBefore: " + hrBefore + "\nDuring: " + hrDuring + "\nAfter: " + hrAfter + "\nTrend: " + trend;
         return hrOutput;
     }
 }

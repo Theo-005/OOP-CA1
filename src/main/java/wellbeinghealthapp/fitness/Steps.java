@@ -24,16 +24,21 @@ public class Steps extends WellbeingHealth {
         this.stepsTarget = stepsTarget;
         this.syncStatus = syncStatus;
     }
-
-    public int getStepsTaken() {
-        return stepsTaken;
+    
+    public final String createStepsReport() {
+        String stepsOutput, stepsMessage;
+        
+        if (stepsTaken < stepsTarget) {
+            stepsMessage = "You did not meet your steps target.";
+        } else if (stepsTaken == stepsTarget) {
+            stepsMessage = "You took the same steps as your target.";
+        } else {
+            stepsMessage = "You beat your steps target.";
+        }
+        
+        stepsOutput = "YOUR STEP COUNT: " + stepsTaken + "\nSteps target: " + stepsTarget + "\n" + stepsMessage + "\n\nSync with watch? " + syncStatus; 
+        
+        return stepsOutput;        
     }
-
-    public int getStepsTarget() {
-        return stepsTarget;
-    }
-
-    public boolean isSyncStatus() {
-        return syncStatus;
-    }  
+    
 }

@@ -37,7 +37,6 @@ public class Workout extends WellbeingHealth {
         routine.add(sets + " sets");
         
         workoutOutput = String.join("  |  ", routine);
-        
         return workoutOutput;
     }   
 }

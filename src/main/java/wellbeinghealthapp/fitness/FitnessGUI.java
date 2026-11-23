@@ -20,16 +20,15 @@ public class FitnessGUI extends javax.swing.JFrame {
     int age;
     
     
-    
     int hrBefore, hrDuring, hrAfter;
     String hrTrend, hrOutput;
     
-    ArrayList<String> routine = new ArrayList<String>();
-    String workout, reps, sets, workoutOutput;
+    ArrayList<String> routine = new ArrayList<>();
+    String workout, reps, sets;
     
     int stepsTaken, stepsTarget;
-    boolean syncStatus;
     String stepsOutput;
+    boolean syncStatus;
             
     /**
      * Creates new form FitnessGUI
@@ -37,7 +36,39 @@ public class FitnessGUI extends javax.swing.JFrame {
     public FitnessGUI() {
         initComponents();
     }
+    
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+    
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -374,12 +405,13 @@ public class FitnessGUI extends javax.swing.JFrame {
         workout = "";
         reps = "";
         sets = "";
-        workoutOutput = "";
         stepsTarget = 0;
         stepsTaken = 0;
         syncStatus = false;
         stepsOutput = "";
         routine.clear();
+        
+        JOptionPane.showMessageDialog(null, "Log successfully cleared.");
         
     }//GEN-LAST:event_clearAllActionPerformed
 
@@ -388,7 +420,21 @@ public class FitnessGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_watchOptionActionPerformed
 
     private void submitStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitStepsActionPerformed
-        // TODO add your handling code here:
+        stepsTarget = Integer.parseInt(targetInput.getText());
+        stepsTaken = Integer.parseInt(stepsInput.getText());
+        if (watchOption.getSelectedIndex() == 0) {
+            syncStatus = true;
+        } else {
+            syncStatus = false;
+        }
+        
+        Steps mySteps = new Steps(name, date, age, stepsTarget, stepsTaken, syncStatus);
+        stepsOutput = mySteps.createStepsReport();
+        JOptionPane.showMessageDialog(null, "Steps successfully appended to your log.");
+        
+        // Clear text fields after submission
+        targetInput.setText("");
+        stepsInput.setText("");
     }//GEN-LAST:event_submitStepsActionPerformed
 
     private void hrBeforeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrBeforeInputActionPerformed
@@ -414,13 +460,18 @@ public class FitnessGUI extends javax.swing.JFrame {
 
     private void showDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDataActionPerformed
         if (hrOutput != null && !"".equals(hrOutput)) {
-            JOptionPane.showMessageDialog(null, "HEART RATE DATA:\n\n" + hrOutput);
+            JOptionPane.showMessageDialog(null, "Hi " + name + ".\nEntry for: " + date + " at " + age + " years old.");
+            JOptionPane.showMessageDialog(null, hrOutput);
         } else {
             JOptionPane.showMessageDialog(null, "An error has a occurred:\nFitness tracker is empty. Add some data first.");
         }
         
         for(int i = 0; i < routine.size(); i++) {
             JOptionPane.showMessageDialog(null, "WORKOUT " + (i + 1) + ":\n\n" + routine.get(i));
+        }
+        
+        if (hrOutput != null && !"".equals(stepsOutput)) {
+            JOptionPane.showMessageDialog(null, stepsOutput);
         }
     }//GEN-LAST:event_showDataActionPerformed
 
@@ -431,8 +482,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         
         Workout myWorkout = new Workout(name, date, age, workout, reps, sets);
         routine.add(myWorkout.createWorkoutReport());
-        JOptionPane.showMessageDialog(null, "Exercise successfully added to your log.\nTo add another, enter details of new exercise.");
-        
+        JOptionPane.showMessageDialog(null, "Exercise successfully appended to your log.\nTo add another, enter details of new exercise.");
         
         // Clear text fields after submission
         exerciseInput.setText("");
