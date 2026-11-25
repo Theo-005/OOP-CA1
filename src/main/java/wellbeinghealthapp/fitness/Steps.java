@@ -13,30 +13,31 @@ import wellbeinghealthapp.WellbeingHealth;
 
 public class Steps extends WellbeingHealth {
     
-    protected int stepsTaken;
     protected int stepsTarget;
+    protected int stepsTaken;
     protected boolean syncStatus;
+    protected String stepsMessage;
     
-    public Steps(String name, String date, int age, int stepsTaken, int stepsTarget, boolean syncStatus) {
+    public Steps(String name, String date, int age, int stepsTarget, int stepsTaken, boolean syncStatus) {
         super(name, date, age);
                 
-        this.stepsTaken = stepsTaken;
         this.stepsTarget = stepsTarget;
+        this.stepsTaken = stepsTaken;
         this.syncStatus = syncStatus;
     }
     
     public final String createStepsReport() {
-        String stepsOutput, stepsMessage;
+        String stepsOutput;
         
         if (stepsTaken < stepsTarget) {
             stepsMessage = "You did not meet your steps target.";
         } else if (stepsTaken == stepsTarget) {
             stepsMessage = "You took the same steps as your target.";
-        } else {
-            stepsMessage = "You beat your steps target.";
+        } else if (stepsTaken > stepsTarget) {
+            stepsMessage = "You beat your steps target!";
         }
         
-        stepsOutput = "YOUR STEP COUNT: " + stepsTaken + "\nSteps target: " + stepsTarget + "\n" + stepsMessage + "\n\nSync with watch? " + syncStatus; 
+        stepsOutput = "YOUR STEPS:\n\nSteps target: " + stepsTarget + "\nSteps taken: " + stepsTaken + "\n" + stepsMessage + "\n\nSync with watch? " + syncStatus; 
         
         return stepsOutput;        
     }

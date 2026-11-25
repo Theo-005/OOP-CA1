@@ -420,21 +420,28 @@ public class FitnessGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_watchOptionActionPerformed
 
     private void submitStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitStepsActionPerformed
-        stepsTarget = Integer.parseInt(targetInput.getText());
-        stepsTaken = Integer.parseInt(stepsInput.getText());
-        if (watchOption.getSelectedIndex() == 0) {
-            syncStatus = true;
+        if (targetInput.getText().equals("") || stepsInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter your steps correctly.");
+            
         } else {
-            syncStatus = false;
+        
+            stepsTarget = Integer.parseInt(targetInput.getText());
+            stepsTaken = Integer.parseInt(stepsInput.getText());
+            
+            if (watchOption.getSelectedIndex() == 1) {
+                syncStatus = true;
+            } else {
+                syncStatus = false;
+            }
+
+            Steps mySteps = new Steps(name, date, age, stepsTarget, stepsTaken, syncStatus);
+            stepsOutput = mySteps.createStepsReport();
+            JOptionPane.showMessageDialog(null, "Steps successfully appended to your log.");
+
+            // Clear text fields after submission
+            targetInput.setText("");
+            stepsInput.setText("");
         }
-        
-        Steps mySteps = new Steps(name, date, age, stepsTarget, stepsTaken, syncStatus);
-        stepsOutput = mySteps.createStepsReport();
-        JOptionPane.showMessageDialog(null, "Steps successfully appended to your log.");
-        
-        // Clear text fields after submission
-        targetInput.setText("");
-        stepsInput.setText("");
     }//GEN-LAST:event_submitStepsActionPerformed
 
     private void hrBeforeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hrBeforeInputActionPerformed
@@ -442,52 +449,64 @@ public class FitnessGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_hrBeforeInputActionPerformed
 
     private void submitHRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitHRActionPerformed
-        hrBefore = Integer.parseInt(hrBeforeInput.getText());
-        hrDuring = Integer.parseInt(hrDuringInput.getText());
-        hrAfter = Integer.parseInt(hrAfterInput.getText());
+        if (hrBeforeInput.getText().equals("") || hrDuringInput.getText().equals("") || hrAfterInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter your heart rates correctly.");
+            
+        } else {
+            
+            hrBefore = Integer.parseInt(hrBeforeInput.getText());
+            hrDuring = Integer.parseInt(hrDuringInput.getText());
+            hrAfter = Integer.parseInt(hrAfterInput.getText());
+
+            HeartRate myHr = new HeartRate(name, date, age, hrBefore, hrDuring, hrAfter, hrTrend);
+            hrOutput = myHr.createHrReport();
+
+            JOptionPane.showMessageDialog(null, "Heart rates successfully appended to your log.");
+
+            // Clear text fields after submission
+            hrBeforeInput.setText("");
+            hrDuringInput.setText("");
+            hrAfterInput.setText("");
         
-        HeartRate myHr = new HeartRate(name, date, age, hrBefore, hrDuring, hrAfter, hrTrend);
-        hrOutput = myHr.createHrReport();
-        
-        JOptionPane.showMessageDialog(null, "Heart rates successfully appended to your log.");
-        
-        // Clear text fields after submission
-        hrBeforeInput.setText("");
-        hrDuringInput.setText("");
-        hrAfterInput.setText("");
+        }
         
     }//GEN-LAST:event_submitHRActionPerformed
 
     private void showDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDataActionPerformed
-        if (hrOutput != null && !"".equals(hrOutput)) {
-            JOptionPane.showMessageDialog(null, "Hi " + name + ".\nEntry for: " + date + " at " + age + " years old.");
+        if (hrOutput != null && !"".equals(hrOutput) && !routine.isEmpty() && stepsOutput != null && !"".equals(stepsOutput)) {
+            JOptionPane.showMessageDialog(null, "Entry for: " + name + "\nDate: " + date + "\nAge: " + age);
             JOptionPane.showMessageDialog(null, hrOutput);
-        } else {
-            JOptionPane.showMessageDialog(null, "An error has a occurred:\nFitness tracker is empty. Add some data first.");
-        }
-        
-        for(int i = 0; i < routine.size(); i++) {
-            JOptionPane.showMessageDialog(null, "WORKOUT " + (i + 1) + ":\n\n" + routine.get(i));
-        }
-        
-        if (hrOutput != null && !"".equals(stepsOutput)) {
+            for(int i = 0; i < routine.size(); i++) {
+                JOptionPane.showMessageDialog(null, "WORKOUT " + (i + 1) + ":\n\n" + routine.get(i));
+            }    
             JOptionPane.showMessageDialog(null, stepsOutput);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "An error has a occurred:\nFitness tracker is empty or is missing details\nPlease add your data correctly first.");
         }
+        
+        
     }//GEN-LAST:event_showDataActionPerformed
 
     private void routineAppendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_routineAppendActionPerformed
-        workout = exerciseInput.getText();
-        reps = repsInput.getText();
-        sets = setsInput.getText();
+        if (exerciseInput.getText().equals("") || repsInput.getText().equals("") || setsInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter your exercise, reps and sets correctly.");
+            
+        } else {
         
-        Workout myWorkout = new Workout(name, date, age, workout, reps, sets);
-        routine.add(myWorkout.createWorkoutReport());
-        JOptionPane.showMessageDialog(null, "Exercise successfully appended to your log.\nTo add another, enter details of new exercise.");
-        
-        // Clear text fields after submission
-        exerciseInput.setText("");
-        repsInput.setText("");
-        setsInput.setText("");
+            workout = exerciseInput.getText();
+            reps = repsInput.getText();
+            sets = setsInput.getText();
+
+            Workout myWorkout = new Workout(name, date, age, workout, reps, sets);
+            routine.add(myWorkout.createWorkoutReport());
+            JOptionPane.showMessageDialog(null, "Exercise successfully appended to your log.\nTo add another, enter details of new exercise.");
+
+            // Clear text fields after submission
+            exerciseInput.setText("");
+            repsInput.setText("");
+            setsInput.setText("");
+        }
     }//GEN-LAST:event_routineAppendActionPerformed
 
     /**
