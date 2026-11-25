@@ -15,6 +15,23 @@ public class Goal {
     private double fatG;
     private double carbsG;
 
+    
+    public Goal(){
+        calsG = 0;
+        proG = 0;
+        fibG = 0;
+        fatG = 0;
+        carbsG = 0;
+    }
+    public Goal(double calsG, double proG, double fibG, double fatG, double carbsG) {
+        this.calsG = calsG;
+        this.proG = proG;
+        this.fibG = fibG;
+        this.fatG = fatG;
+        this.carbsG = carbsG;
+    }
+
+    
     public double getCalsG() {
         return calsG;
     }

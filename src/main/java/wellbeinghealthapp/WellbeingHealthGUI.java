@@ -213,14 +213,6 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             this.dispose();
         }
         
-        if (nutritionRB.isSelected()) {
-
-            NutritionGUI nutritionUI = new NutritionGUI();
-            nutritionUI.setVisible(true);
-
-            this.dispose();
-        }
-
         if (fitnessRB.isSelected()) {
             
             if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
@@ -236,6 +228,23 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             fitnessUI.setVisible(true);
             this.dispose();
             
+        }
+        
+        if (nutritionRB.isSelected()) {
+            if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
+                return;
+            }
+
+            WellbeingHealth wh = new WellbeingHealth();
+            wh.setName(nameTF.getText());
+            wh.setDate(dateTF.getText());
+            wh.setAge(Integer.parseInt(ageTF.getText()));
+
+            NutritionGUI nutritionUI = new NutritionGUI();
+            nutritionUI.setWh(wh);
+            nutritionUI.setVisible(true);
+            this.dispose();
         }
         
         if (!fitnessRB.isSelected() && !mindRB.isSelected() && !nutritionRB.isSelected()) {
