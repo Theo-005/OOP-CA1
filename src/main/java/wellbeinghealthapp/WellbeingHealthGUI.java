@@ -225,6 +225,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             
             if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
+                return;
             }
             
             FitnessGUI fitnessUI = new FitnessGUI();
