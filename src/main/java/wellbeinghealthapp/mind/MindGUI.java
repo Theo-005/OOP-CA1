@@ -5,7 +5,9 @@
 package wellbeinghealthapp.mind;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import wellbeinghealthapp.WellbeingHealthGUI;
+import wellbeinghealthapp.WellbeingHealth;
 
 /**
  *
@@ -14,13 +16,19 @@ import wellbeinghealthapp.WellbeingHealthGUI;
 public class MindGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MindGUI.class.getName());
-    private ArrayList<Mood> mList = new ArrayList<>();
+    private ArrayList<WellbeingHealth> mList = new ArrayList<>();
+    private WellbeingHealth wh;
+    private int nextId = 1;
 
     /**
      * Creates new form MindGUI
      */
     public MindGUI() {
         initComponents();
+    }
+    
+    public void setWh(WellbeingHealth wh) {
+        this.wh = wh;
     }
 
     /**
@@ -33,16 +41,12 @@ public class MindGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        journalLbl1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         mTitle = new javax.swing.JLabel();
-        inputLbl = new javax.swing.JLabel();
-        moodRB = new javax.swing.JRadioButton();
-        sleepRB = new javax.swing.JRadioButton();
-        journalRB = new javax.swing.JRadioButton();
-        allRB = new javax.swing.JRadioButton();
         moodLbl = new javax.swing.JLabel();
         sleepLbl = new javax.swing.JLabel();
-        journalLbl = new javax.swing.JLabel();
+        subTitle = new javax.swing.JLabel();
         moodTF = new javax.swing.JTextField();
         sleepTF = new javax.swing.JTextField();
         journalTF = new javax.swing.JTextField();
@@ -53,8 +57,12 @@ public class MindGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         displayTxt = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        journalLbl2 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+
+        journalLbl1.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        journalLbl1.setText("Journal:");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,43 +71,23 @@ public class MindGUI extends javax.swing.JFrame {
         mTitle.setFont(new java.awt.Font("SimSun", 1, 24)); // NOI18N
         mTitle.setText("         Mental Health");
 
-        inputLbl.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        inputLbl.setText("Input:");
-
-        buttonGroup1.add(moodRB);
-        moodRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        moodRB.setText("Mood");
-        moodRB.addActionListener(this::moodRBActionPerformed);
-
-        buttonGroup1.add(sleepRB);
-        sleepRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        sleepRB.setText("Sleep");
-        sleepRB.addActionListener(this::sleepRBActionPerformed);
-
-        buttonGroup1.add(journalRB);
-        journalRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        journalRB.setText("Journal");
-        journalRB.addActionListener(this::journalRBActionPerformed);
-
-        buttonGroup1.add(allRB);
-        allRB.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-        allRB.setText("All");
-        allRB.addActionListener(this::allRBActionPerformed);
-
         moodLbl.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        moodLbl.setText("Mood:");
+        moodLbl.setText("Mood (1-10):");
 
         sleepLbl.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        sleepLbl.setText("Sleep:");
+        sleepLbl.setText("Sleep (hrs):");
 
-        journalLbl.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        journalLbl.setText("Journal:");
+        subTitle.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        subTitle.setText("Enter your details below");
 
         moodTF.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        moodTF.addActionListener(this::moodTFActionPerformed);
 
         sleepTF.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        sleepTF.addActionListener(this::sleepTFActionPerformed);
 
         journalTF.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        journalTF.addActionListener(this::journalTFActionPerformed);
 
         mExitBtn.setBackground(new java.awt.Color(204, 255, 204));
         mExitBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
@@ -109,73 +97,43 @@ public class MindGUI extends javax.swing.JFrame {
         mEnterBtn.setBackground(new java.awt.Color(204, 255, 204));
         mEnterBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         mEnterBtn.setText("ENTER");
+        mEnterBtn.addActionListener(this::mEnterBtnActionPerformed);
 
         mDisplayBtn.setBackground(new java.awt.Color(204, 255, 204));
         mDisplayBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         mDisplayBtn.setText("DISPLAY");
+        mDisplayBtn.addActionListener(this::mDisplayBtnActionPerformed);
 
         mSearchBtn.setBackground(new java.awt.Color(204, 255, 204));
         mSearchBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
         mSearchBtn.setText("SEARCH");
+        mSearchBtn.addActionListener(this::mSearchBtnActionPerformed);
+        mSearchBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mSearchBtnKeyPressed(evt);
+            }
+        });
 
+        displayTxt.setEditable(false);
         displayTxt.setColumns(20);
+        displayTxt.setLineWrap(true);
         displayTxt.setRows(5);
+        displayTxt.setWrapStyleWord(true);
         jScrollPane1.setViewportView(displayTxt);
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
-        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
-
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
+
+        journalLbl2.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        journalLbl2.setText("Journal:");
+
+        jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(mExitBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(mEnterBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(mDisplayBtn))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(inputLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(moodRB)
-                                .addGap(18, 18, 18)
-                                .addComponent(sleepRB)
-                                .addGap(18, 18, 18)
-                                .addComponent(journalRB))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(sleepLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(sleepTF, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, Short.MAX_VALUE)
-                                .addComponent(allRB, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(mSearchBtn)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(moodLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(moodTF, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(journalLbl))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(188, 188, 188)
-                                .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,15 +145,40 @@ public class MindGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(mExitBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(mEnterBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(mDisplayBtn)
+                                .addGap(28, 28, 28)
+                                .addComponent(mSearchBtn))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(sleepLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(moodLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(moodTF, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(sleepTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(30, 30, 30)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(journalLbl2)))
+                                    .addComponent(subTitle)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,30 +187,21 @@ public class MindGUI extends javax.swing.JFrame {
                 .addComponent(mTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(moodRB)
-                    .addComponent(sleepRB)
-                    .addComponent(journalRB)
-                    .addComponent(allRB))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(subTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(moodLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(moodTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(journalLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sleepLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sleepTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                    .addComponent(journalLbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sleepLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sleepTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,6 +228,43 @@ public class MindGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void mEnterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mEnterBtnActionPerformed
+        // TODO add your handling code here:
+        
+        if (moodTF.getText().isEmpty() || sleepTF.getText().isEmpty() || journalTF.getText().isEmpty()) {
+            displayTxt.setText("WARNING:\nPlease enter all fields correctly.");
+            return;
+        }
+
+        int moodVal = Integer.parseInt(moodTF.getText());
+        int sleepHrs = Integer.parseInt(sleepTF.getText());
+        String entryText = journalTF.getText();
+
+        Mood m = new Mood(wh.getName(), wh.getDate(), wh.getAge(), moodVal);
+        Sleep s = new Sleep(sleepHrs, wh.getName(), wh.getDate(), wh.getAge());
+        Journal j = new Journal(entryText, wh.getName(), wh.getDate(), wh.getAge());
+        
+        m.setId(nextId);
+        s.setId(nextId);
+        j.setId(nextId); 
+
+        mList.add(m);
+        mList.add(s);
+        mList.add(j);   
+
+        displayTxt.setText("Your information was successfully entered!\n");
+        displayTxt.append("[ID: " + nextId + "]\n");
+        displayTxt.append(m.printDetails() + "\n");
+        displayTxt.append("Mood: " + m.calcMood() + "\n");
+        displayTxt.append("Sleep: " + s.calcSleep() + "\n");
+        
+        nextId++;
+
+        moodTF.setText("");
+        sleepTF.setText("");
+        journalTF.setText("");
+    }//GEN-LAST:event_mEnterBtnActionPerformed
+
     private void mExitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mExitBtnActionPerformed
         // TODO add your handling code here:
         WellbeingHealthGUI mygui = new WellbeingHealthGUI();
@@ -261,33 +272,68 @@ public class MindGUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_mExitBtnActionPerformed
 
-    private void moodRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moodRBActionPerformed
+    private void journalTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_journalTFActionPerformed
         // TODO add your handling code here:
-        moodTF.setEditable(true);
-        sleepTF.setEditable(false);
-        journalTF.setEditable(false);
-    }//GEN-LAST:event_moodRBActionPerformed
 
-    private void sleepRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sleepRBActionPerformed
-        // TODO add your handling code here:
-        moodTF.setEditable(false);
-        sleepTF.setEditable(true);
-        journalTF.setEditable(false);
-    }//GEN-LAST:event_sleepRBActionPerformed
+    }//GEN-LAST:event_journalTFActionPerformed
 
-    private void journalRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_journalRBActionPerformed
+    private void sleepTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sleepTFActionPerformed
         // TODO add your handling code here:
-        moodTF.setEditable(false);
-        sleepTF.setEditable(false);
-        journalTF.setEditable(true);
-    }//GEN-LAST:event_journalRBActionPerformed
 
-    private void allRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRBActionPerformed
+    }//GEN-LAST:event_sleepTFActionPerformed
+
+    private void moodTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moodTFActionPerformed
         // TODO add your handling code here:
-        moodTF.setEditable(true);
-        sleepTF.setEditable(true);
-        journalTF.setEditable(true);
-    }//GEN-LAST:event_allRBActionPerformed
+
+    }//GEN-LAST:event_moodTFActionPerformed
+
+    private void mDisplayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mDisplayBtnActionPerformed
+        // TODO add your handling code here:
+        if (mList.isEmpty()) {
+            displayTxt.setText("No entries to display.");
+            return;
+        }
+
+        displayTxt.setText("");
+        
+        for (int i = 0; i < mList.size(); i++) {
+            WellbeingHealth item = mList.get(i);
+            displayTxt.append("[ID: " + item.getId() + "] " + item.toString() + "\n");
+        }
+    }//GEN-LAST:event_mDisplayBtnActionPerformed
+
+    private void mSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSearchBtnActionPerformed
+        // TODO add your handling code here:
+        if (mList.isEmpty()) {
+            displayTxt.setText("No entries available to search.");
+            return;
+        }
+
+        String input = JOptionPane.showInputDialog(null, "Enter the ID number to search:");
+        if (input == null || input.isEmpty()) {
+            return; 
+        }
+
+        int searchId = Integer.parseInt(input);
+        displayTxt.setText("Search Results for ID #" + searchId + ":\n\n");
+        boolean found = false;
+
+        for (int i = 0; i < mList.size(); i++) {
+            WellbeingHealth item = mList.get(i);
+            if (item.getId() == searchId) {
+                displayTxt.append(item.toString() + "\n");
+                found = true;
+            }
+        }
+
+        if (!found) {
+            displayTxt.setText("No entries found with ID #" + searchId + ".");
+        }
+    }//GEN-LAST:event_mSearchBtnActionPerformed
+
+    private void mSearchBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mSearchBtnKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mSearchBtnKeyPressed
 
     /**
      * @param args the command line arguments
@@ -315,17 +361,15 @@ public class MindGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton allRB;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextArea displayTxt;
-    private javax.swing.JLabel inputLbl;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JLabel journalLbl;
-    private javax.swing.JRadioButton journalRB;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JLabel journalLbl1;
+    private javax.swing.JLabel journalLbl2;
     private javax.swing.JTextField journalTF;
     private javax.swing.JButton mDisplayBtn;
     private javax.swing.JButton mEnterBtn;
@@ -333,10 +377,9 @@ public class MindGUI extends javax.swing.JFrame {
     private javax.swing.JButton mSearchBtn;
     private javax.swing.JLabel mTitle;
     private javax.swing.JLabel moodLbl;
-    private javax.swing.JRadioButton moodRB;
     private javax.swing.JTextField moodTF;
     private javax.swing.JLabel sleepLbl;
-    private javax.swing.JRadioButton sleepRB;
     private javax.swing.JTextField sleepTF;
+    private javax.swing.JLabel subTitle;
     // End of variables declaration//GEN-END:variables
 }

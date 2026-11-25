@@ -12,7 +12,6 @@ package wellbeinghealthapp;
 
 import wellbeinghealthapp.Nutrition.NutritionGUI;
 import wellbeinghealthapp.mind.MindGUI;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import wellbeinghealthapp.fitness.FitnessGUI;
 
@@ -20,14 +19,14 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(WellbeingHealthGUI.class.getName());
     
-    ArrayList<WellbeingHealth> aList;
+    
 
     /**
      * Creates new form WellbeingHealthGUI
      */
     public WellbeingHealthGUI() {
         initComponents();
-        aList = new ArrayList<>();
+        
     }
 
     /**
@@ -197,17 +196,19 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
 
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
         // TODO add your handling code here:
-        if (mindRB.isSelected()){
-            
+        if (mindRB.isSelected()) {
             if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
+                return;
             }
-            
-            MindGUI mindUI = new MindGUI();
+
             WellbeingHealth wh = new WellbeingHealth();
             wh.setName(nameTF.getText());
             wh.setDate(dateTF.getText());
             wh.setAge(Integer.parseInt(ageTF.getText()));
+
+            MindGUI mindUI = new MindGUI();
+            mindUI.setWh(wh);
             mindUI.setVisible(true);
             this.dispose();
         }

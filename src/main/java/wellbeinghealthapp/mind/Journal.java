@@ -34,5 +34,8 @@ public class Journal extends WellbeingHealth{
         this.entry = entry;
     }
     
-    
+    @Override
+    public String toString() {
+        return "Journal (" + date + "): " + entry;
+    }
 }

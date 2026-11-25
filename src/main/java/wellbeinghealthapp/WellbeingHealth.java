@@ -11,6 +11,7 @@ package wellbeinghealthapp;
 public class WellbeingHealth {
     protected String name, date;
     protected int age;
+    protected int id;
 
     public WellbeingHealth() {
     }
@@ -45,5 +46,12 @@ public class WellbeingHealth {
         this.age = age;
     }
     
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
 }
