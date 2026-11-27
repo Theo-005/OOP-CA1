@@ -214,6 +214,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             this.dispose();
         }
         
+        // If fitnessRB.isSelected; written by Sean Murphy
         if (fitnessRB.isSelected()) {
             
             if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
@@ -231,6 +232,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             
         }
         
+        // If nutritionRB.isSelected written by Karl Ward
         if (nutritionRB.isSelected()) {
             if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
@@ -248,6 +250,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
             this.dispose();
         }
         
+        // If none are selected; written by Sean Murphy
         if (!fitnessRB.isSelected() && !mindRB.isSelected() && !nutritionRB.isSelected()) {
             JOptionPane.showMessageDialog(null, "Please select a log type");
         }
