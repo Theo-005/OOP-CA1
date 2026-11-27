@@ -4,6 +4,9 @@
  */
 package wellbeinghealthapp.fitness;
 
+
+// STEPS: Written by Sean Murphy (x25421832)
+
 /**
  *
  * @author seanm

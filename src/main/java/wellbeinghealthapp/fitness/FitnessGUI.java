@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import wellbeinghealthapp.WellbeingHealthGUI;
 
+
+// FITNESS GUI: Written by Sean Murphy (x25421832)
+
 /**
  *
  * @author seanm
@@ -136,6 +139,7 @@ public class FitnessGUI extends javax.swing.JFrame {
 
         afterLabel.setText("After");
 
+        submitHR.setBackground(new java.awt.Color(204, 255, 204));
         submitHR.setText("Submit Heart Rates");
         submitHR.addActionListener(this::submitHRActionPerformed);
 
@@ -161,6 +165,7 @@ public class FitnessGUI extends javax.swing.JFrame {
         setsInput.setMinimumSize(new java.awt.Dimension(60, 22));
         setsInput.setPreferredSize(new java.awt.Dimension(60, 22));
 
+        routineAppend.setBackground(new java.awt.Color(204, 255, 204));
         routineAppend.setText("Add to Routine");
         routineAppend.setMaximumSize(new java.awt.Dimension(135, 22));
         routineAppend.setMinimumSize(new java.awt.Dimension(135, 22));
@@ -184,10 +189,12 @@ public class FitnessGUI extends javax.swing.JFrame {
 
         watchLabel.setText("Sync with Smartwatch?");
 
+        returnToMenu.setBackground(new java.awt.Color(204, 255, 204));
         returnToMenu.setText("Main Menu");
         returnToMenu.setPreferredSize(new java.awt.Dimension(113, 42));
         returnToMenu.addActionListener(this::returnToMenuActionPerformed);
 
+        clearAll.setBackground(new java.awt.Color(255, 200, 200));
         clearAll.setText("Delete Log");
         clearAll.setMaximumSize(new java.awt.Dimension(113, 42));
         clearAll.setMinimumSize(new java.awt.Dimension(113, 42));
@@ -197,9 +204,11 @@ public class FitnessGUI extends javax.swing.JFrame {
         watchOption.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yes", "No" }));
         watchOption.addActionListener(this::watchOptionActionPerformed);
 
+        submitSteps.setBackground(new java.awt.Color(204, 255, 204));
         submitSteps.setText("Submit");
         submitSteps.addActionListener(this::submitStepsActionPerformed);
 
+        showData.setBackground(new java.awt.Color(204, 255, 204));
         showData.setText("Show Log");
         showData.addActionListener(this::showDataActionPerformed);
 
