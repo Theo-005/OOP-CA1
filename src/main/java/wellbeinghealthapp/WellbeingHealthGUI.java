@@ -196,6 +196,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
 
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
         // TODO add your handling code here:
+        //If mindRB is selected written by Theo Stowe
         if (mindRB.isSelected()) {
             if (nameTF.getText().isEmpty() || dateTF.getText().isEmpty() || ageTF.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please enter all fields correctly.");
@@ -255,6 +256,7 @@ public class WellbeingHealthGUI extends javax.swing.JFrame {
 
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
         // TODO add your handling code here:
+        //Written by Theo Stowe
         System.exit(0);
     }//GEN-LAST:event_exitBtnActionPerformed
 

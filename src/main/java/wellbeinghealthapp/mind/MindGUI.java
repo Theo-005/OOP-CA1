@@ -5,9 +5,15 @@
 package wellbeinghealthapp.mind;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import wellbeinghealthapp.WellbeingHealthGUI;
 import wellbeinghealthapp.WellbeingHealth;
+import javax.swing.JOptionPane;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  *
@@ -25,10 +31,60 @@ public class MindGUI extends javax.swing.JFrame {
      */
     public MindGUI() {
         initComponents();
+        loadFromFile();
     }
     
     public void setWh(WellbeingHealth wh) {
         this.wh = wh;
+    }
+    
+    private void saveToFile() {
+        File f;
+        FileOutputStream fStream;
+        ObjectOutputStream oStream;
+
+        try {
+            f = new File("mind_entries.dat");
+            fStream = new FileOutputStream(f);
+            oStream = new ObjectOutputStream(fStream);
+
+            oStream.writeObject(mList);
+            oStream.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error saving file: " + e);
+        }
+    }
+
+    private void loadFromFile() {
+        File f;
+        FileInputStream fStream;
+        ObjectInputStream oStream;
+
+        try {
+            f = new File("mind_entries.dat");
+            if (!f.exists()) {
+                return;
+            }
+
+            fStream = new FileInputStream(f);
+            oStream = new ObjectInputStream(fStream);
+
+            mList = (ArrayList<WellbeingHealth>) oStream.readObject();
+            oStream.close();
+
+            int maxId = 0;
+            for (int i = 0; i < mList.size(); i++) {
+                if (mList.get(i).getId() > maxId) {
+                    maxId = mList.get(i).getId();
+                }
+            }
+            nextId = maxId + 1;
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error loading file: " + e);
+        } catch (ClassNotFoundException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -60,6 +116,9 @@ public class MindGUI extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         journalLbl2 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
+        mDeleteBtn = new javax.swing.JButton();
+        idLbl = new javax.swing.JLabel();
+        idTF = new javax.swing.JTextField();
 
         journalLbl1.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
         journalLbl1.setText("Journal:");
@@ -68,13 +127,13 @@ public class MindGUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 236, 209));
 
-        mTitle.setFont(new java.awt.Font("SimSun", 1, 24)); // NOI18N
+        mTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         mTitle.setText("         Mental Health");
 
-        moodLbl.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        moodLbl.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         moodLbl.setText("Mood (1-10):");
 
-        sleepLbl.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        sleepLbl.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         sleepLbl.setText("Sleep (hrs):");
 
         subTitle.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
@@ -90,22 +149,22 @@ public class MindGUI extends javax.swing.JFrame {
         journalTF.addActionListener(this::journalTFActionPerformed);
 
         mExitBtn.setBackground(new java.awt.Color(204, 255, 204));
-        mExitBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        mExitBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mExitBtn.setText("BACK");
         mExitBtn.addActionListener(this::mExitBtnActionPerformed);
 
         mEnterBtn.setBackground(new java.awt.Color(204, 255, 204));
-        mEnterBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        mEnterBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mEnterBtn.setText("ENTER");
         mEnterBtn.addActionListener(this::mEnterBtnActionPerformed);
 
         mDisplayBtn.setBackground(new java.awt.Color(204, 255, 204));
-        mDisplayBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        mDisplayBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mDisplayBtn.setText("DISPLAY");
         mDisplayBtn.addActionListener(this::mDisplayBtnActionPerformed);
 
         mSearchBtn.setBackground(new java.awt.Color(204, 255, 204));
-        mSearchBtn.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+        mSearchBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mSearchBtn.setText("SEARCH");
         mSearchBtn.addActionListener(this::mSearchBtnActionPerformed);
         mSearchBtn.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -125,60 +184,83 @@ public class MindGUI extends javax.swing.JFrame {
 
         jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
 
-        journalLbl2.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        journalLbl2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         journalLbl2.setText("Journal:");
 
         jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
+
+        mDeleteBtn.setBackground(new java.awt.Color(204, 255, 204));
+        mDeleteBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mDeleteBtn.setText("DELETE");
+        mDeleteBtn.addActionListener(this::mDeleteBtnActionPerformed);
+        mDeleteBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mDeleteBtnKeyPressed(evt);
+            }
+        });
+
+        idLbl.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        idLbl.setText("ID:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(mExitBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(mEnterBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(mDisplayBtn)
-                                .addGap(28, 28, 28)
-                                .addComponent(mSearchBtn))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(sleepLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(moodLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(moodTF, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sleepTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(journalLbl2)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mExitBtn)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(moodTF, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(sleepTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(30, 30, 30)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(journalLbl2)))
-                                    .addComponent(subTitle)))))
+                                        .addComponent(idLbl)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mEnterBtn)
+                                    .addComponent(mSearchBtn))
+                                .addGap(69, 69, 69)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mDisplayBtn)
+                                    .addComponent(mDeleteBtn)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(mTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(subTitle)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,30 +269,39 @@ public class MindGUI extends javax.swing.JFrame {
                 .addComponent(mTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(subTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(subTitle)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(moodLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(moodTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(journalLbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sleepTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sleepLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sleepLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sleepTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(journalTF, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mExitBtn)
                     .addComponent(mEnterBtn)
-                    .addComponent(mDisplayBtn)
+                    .addComponent(mDisplayBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mSearchBtn)
-                    .addComponent(mExitBtn))
+                    .addComponent(mDeleteBtn)
+                    .addComponent(idLbl)
+                    .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
 
@@ -250,7 +341,9 @@ public class MindGUI extends javax.swing.JFrame {
 
         mList.add(m);
         mList.add(s);
-        mList.add(j);   
+        mList.add(j); 
+        
+        saveToFile();
 
         displayTxt.setText("Your information was successfully entered!\n");
         displayTxt.append("[ID: " + nextId + "]\n");
@@ -309,31 +402,69 @@ public class MindGUI extends javax.swing.JFrame {
             return;
         }
 
-        String input = JOptionPane.showInputDialog(null, "Enter the ID number to search:");
-        if (input == null || input.isEmpty()) {
-            return; 
+        String input = idTF.getText().trim();
+        if (input.isEmpty()) {
+            displayTxt.setText("Please enter an ID number to search.");
+            return;
         }
 
-        int searchId = Integer.parseInt(input);
-        displayTxt.setText("Search Results for ID #" + searchId + ":\n\n");
-        boolean found = false;
+        try {
+            int searchId = Integer.parseInt(input);
+            displayTxt.setText("Search Results for ID #" + searchId + ":\n\n");
+            boolean found = false;
 
-        for (int i = 0; i < mList.size(); i++) {
-            WellbeingHealth item = mList.get(i);
-            if (item.getId() == searchId) {
-                displayTxt.append(item.toString() + "\n");
-                found = true;
+            for (int i = 0; i < mList.size(); i++) {
+                WellbeingHealth item = mList.get(i);
+                if (item.getId() == searchId) {
+                    displayTxt.append(item.toString() + "\n");
+                    found = true;
+                }
             }
-        }
 
-        if (!found) {
-            displayTxt.setText("No entries found with ID #" + searchId + ".");
+            if (!found) {
+                displayTxt.setText("No entries found with ID #" + searchId + ".");
+            }
+        } catch (NumberFormatException e) {
+            displayTxt.setText("Please enter a valid numeric ID.");
         }
     }//GEN-LAST:event_mSearchBtnActionPerformed
 
     private void mSearchBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mSearchBtnKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_mSearchBtnKeyPressed
+
+    private void mDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mDeleteBtnActionPerformed
+        // TODO add your handling code here:
+        if (mList.isEmpty()) {
+            displayTxt.setText("No entries available to delete.");
+            return;
+        }
+
+        String input = idTF.getText().trim();
+        if (input.isEmpty()) {
+            displayTxt.setText("Please enter an ID number to delete.");
+            return;
+        }
+
+        try {
+            int deleteId = Integer.parseInt(input);
+            boolean removed = mList.removeIf(item -> item.getId() == deleteId);
+
+            if (removed) {
+                saveToFile();
+                displayTxt.setText("All records for ID #" + deleteId + " were deleted.");
+            } else {
+                displayTxt.setText("No entries found with ID #" + deleteId + ".");
+            }
+            idTF.setText("");
+        } catch (NumberFormatException e) {
+            displayTxt.setText("Please enter a valid numeric ID.");
+        }
+    }//GEN-LAST:event_mDeleteBtnActionPerformed
+
+    private void mDeleteBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mDeleteBtnKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mDeleteBtnKeyPressed
 
     /**
      * @param args the command line arguments
@@ -363,6 +494,8 @@ public class MindGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextArea displayTxt;
+    private javax.swing.JLabel idLbl;
+    private javax.swing.JTextField idTF;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -371,6 +504,7 @@ public class MindGUI extends javax.swing.JFrame {
     private javax.swing.JLabel journalLbl1;
     private javax.swing.JLabel journalLbl2;
     private javax.swing.JTextField journalTF;
+    private javax.swing.JButton mDeleteBtn;
     private javax.swing.JButton mDisplayBtn;
     private javax.swing.JButton mEnterBtn;
     private javax.swing.JButton mExitBtn;

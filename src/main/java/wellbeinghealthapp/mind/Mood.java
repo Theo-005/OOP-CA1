@@ -28,7 +28,7 @@ public class Mood extends WellbeingHealth{
         return moodVal;
     }
 
-    public void setMood(int mood) {
+    public void setMood(int moodVal) {
         this.moodVal = moodVal;
     }
     

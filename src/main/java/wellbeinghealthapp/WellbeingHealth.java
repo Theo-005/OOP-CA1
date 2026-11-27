@@ -8,7 +8,9 @@ package wellbeinghealthapp;
  *
  * @author stowe
  */
-public class WellbeingHealth {
+import java.io.Serializable;
+
+public class WellbeingHealth implements Serializable{
     protected String name, date;
     protected int age;
     protected int id;
