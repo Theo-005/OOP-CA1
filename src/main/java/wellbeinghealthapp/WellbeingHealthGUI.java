@@ -10,6 +10,7 @@ package wellbeinghealthapp;
  * @author stowe
  */
 
+//Visual layout done by Theo Stowe
 import wellbeinghealthapp.Nutrition.NutritionGUI;
 import wellbeinghealthapp.mind.MindGUI;
 import javax.swing.JOptionPane;
