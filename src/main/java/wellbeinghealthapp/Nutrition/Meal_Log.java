@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wellbeinghealthapp.Nutrition;
-
+import wellbeinghealthapp.WellbeingHealth;
 /**
  *
  * @author karlw
  */
-public class Meal_Log {
+public class Meal_Log extends WellbeingHealth {
     private String meal_ML;
     private double cals_ML;
     private double pro_ML;

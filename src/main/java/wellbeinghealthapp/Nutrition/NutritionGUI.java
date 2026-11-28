@@ -5,6 +5,14 @@
 package wellbeinghealthapp.Nutrition;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import wellbeinghealthapp.WellbeingHealthGUI;
 import wellbeinghealthapp.WellbeingHealth;
@@ -18,10 +26,10 @@ public class NutritionGUI extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger =
         java.util.logging.Logger.getLogger(NutritionGUI.class.getName());
 
-    Goal goal = new Goal();
-    Tracker tracker = new Tracker();
-    Meal_Log meal = new Meal_Log();
-    private WellbeingHealth wh;
+   Goal goal = new Goal();
+   Tracker tracker = new Tracker();
+   ArrayList<Meal_Log> meals = new ArrayList<>();
+   private WellbeingHealth wh;
     
     double totalCals_ML = 0;
     double totalPro_ML = 0;
@@ -31,10 +39,62 @@ public class NutritionGUI extends javax.swing.JFrame {
 
     public NutritionGUI() {
         initComponents();
+        loadFromFile();
     }
 
     public void setWh(WellbeingHealth wh) {
         this.wh = wh;
+    }
+    
+     private void saveToFile() {
+        File f;
+        FileOutputStream fStream;
+        ObjectOutputStream oStream;
+
+        try {
+            f = new File("meal_data.dat");
+            System.out.println(f.getAbsolutePath());
+            fStream = new FileOutputStream(f);
+            oStream = new ObjectOutputStream(fStream);
+
+            oStream.writeObject(meals);
+            oStream.close();
+            
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error saving file: " + e);
+        }
+    }
+     
+     private void loadFromFile() {
+
+        File f;
+        FileInputStream fStream;
+        ObjectInputStream oStream;
+
+        try {
+
+            f = new File("meal_data.dat");
+
+            if (!f.exists()) {
+                return;
+            }
+
+            fStream = new FileInputStream(f);
+            oStream = new ObjectInputStream(fStream);
+
+            meals = (ArrayList<Meal_Log>) oStream.readObject();
+
+            oStream.close();
+
+        } catch (IOException e) {
+
+            JOptionPane.showMessageDialog(null,
+                    "Error loading file: " + e);
+
+        } catch (ClassNotFoundException ex) {
+
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -111,6 +171,8 @@ public class NutritionGUI extends javax.swing.JFrame {
         ADDML = new javax.swing.JButton();
         jScrollPane12 = new javax.swing.JScrollPane();
         ML_table = new javax.swing.JTable();
+        SEARCHbutton = new javax.swing.JButton();
+        searchtxt = new javax.swing.JTextField();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
@@ -379,6 +441,8 @@ public class NutritionGUI extends javax.swing.JFrame {
         ADDML.setText("ADD");
         ADDML.addActionListener(this::ADDMLActionPerformed);
 
+        ML_table.setBackground(new java.awt.Color(204, 255, 204));
+        ML_table.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         ML_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -397,10 +461,17 @@ public class NutritionGUI extends javax.swing.JFrame {
         });
         jScrollPane12.setViewportView(ML_table);
 
+        SEARCHbutton.setBackground(new java.awt.Color(204, 255, 204));
+        SEARCHbutton.setText("SEARCH");
+        SEARCHbutton.addActionListener(this::SEARCHbuttonActionPerformed);
+
+        searchtxt.addActionListener(this::searchtxtActionPerformed);
+
         javax.swing.GroupLayout ML_PanelLayout = new javax.swing.GroupLayout(ML_Panel);
         ML_Panel.setLayout(ML_PanelLayout);
         ML_PanelLayout.setHorizontalGroup(
             ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(ML_PanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -417,7 +488,8 @@ public class NutritionGUI extends javax.swing.JFrame {
                             .addGroup(ML_PanelLayout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(SEARCHbutton, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ML_PanelLayout.createSequentialGroup()
@@ -429,16 +501,16 @@ public class NutritionGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))
+                            .addComponent(searchtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(ML_PanelLayout.createSequentialGroup()
                         .addGap(88, 88, 88)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ADDML)))
                 .addContainerGap(29, Short.MAX_VALUE))
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         ML_PanelLayout.setVerticalGroup(
             ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,8 +543,12 @@ public class NutritionGUI extends javax.swing.JFrame {
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(ML_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SEARCHbutton)
+                    .addComponent(searchtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -486,13 +562,14 @@ public class NutritionGUI extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ML_Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(T_Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(G_Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(ML_Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(G_Panel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(T_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,7 +584,7 @@ public class NutritionGUI extends javax.swing.JFrame {
                 .addComponent(G_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ML_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(T_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -518,13 +595,11 @@ public class NutritionGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -536,14 +611,11 @@ public class NutritionGUI extends javax.swing.JFrame {
 
     private void setGoal_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setGoal_buttonActionPerformed
         // TODO add your handling code here:
+        
         goal.setProG(Double.parseDouble(Pro_G.getText()));
-
         goal.setCalsG(Double.parseDouble(Cal_G.getText()));
-
         goal.setCarbsG(Double.parseDouble(Carb_G.getText()));
-
         goal.setFibG(Double.parseDouble(Fib_G.getText()));
-
         goal.setFatG(Double.parseDouble(Fat_G.getText()));
     }//GEN-LAST:event_setGoal_buttonActionPerformed
 
@@ -557,59 +629,57 @@ public class NutritionGUI extends javax.swing.JFrame {
 
     private void ADDMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADDMLActionPerformed
         // TODO add your handling code here:
-        meal.setMeal_ML(Meal_ML.getText());
+    Meal_Log meal = new Meal_Log();
+//gets meals
+    meal.setMeal_ML(Meal_ML.getText());
+    meal.setCals_ML(Double.parseDouble(CALML.getText()));
+    meal.setPro_ML(Double.parseDouble(PROML.getText()));
+    meal.setFib_ML(Double.parseDouble(FIBML.getText()));
+    meal.setFat_ML(Double.parseDouble(FATML.getText()));
+    meal.setCarbs_ML(Double.parseDouble(CARBML.getText()));
+//adds to array
+    meals.add(meal);
+    
+    saveToFile();
+    
+//adds to table
+    DefaultTableModel model = (DefaultTableModel) ML_table.getModel();
 
-        meal.setCals_ML(
-            Double.parseDouble(CALML.getText()));
+    model.addRow(new Object[]{
+        meal.getMeal_ML(),
+        meal.getCals_ML(),
+        meal.getPro_ML(),
+        meal.getCarbs_ML(),
+        meal.getFib_ML(),
+        meal.getFat_ML(),
+        wh.getName(),
+        wh.getDate()
+    });
+//updates total
+    totalCals_ML += meal.getCals_ML();
+    totalPro_ML += meal.getPro_ML();
+    totalCarbs_ML += meal.getCarbs_ML();
+    totalFib_ML += meal.getFib_ML();
+    totalFat_ML += meal.getFat_ML();
+//calc percent
+    double proPer = tracker.calcPro(totalPro_ML, goal.getProG());
+    double calPer = tracker.calcCals(totalCals_ML, goal.getCalsG());
+    double carbPer = tracker.calcCarbs(totalCarbs_ML, goal.getCarbsG());
+    double fibPer = tracker.calcFib(totalFib_ML, goal.getFibG());
+    double fatPer = tracker.calcFat(totalFat_ML, goal.getFatG());
+//updates %
+    Pro_per.setText((int)proPer + "%");
+    Cal_per.setText((int)calPer + "%");
+    Carb_per.setText((int)carbPer + "%");
+    Fib_Per.setText((int)fibPer + "%");
+    Fat_per.setText((int)fatPer + "%");
+//updates bar
+    Pro_bar.setValue((int)proPer);
+    Cal_bar.setValue((int)calPer);
+    Carb_bar.setValue((int)carbPer);
+    Fib_bar.setValue((int)fibPer);
+    Fat_bar.setValue((int)fatPer);
 
-        meal.setPro_ML(
-            Double.parseDouble(PROML.getText()));
-
-        meal.setFib_ML(
-            Double.parseDouble(FIBML.getText()));
-
-        meal.setFat_ML(
-            Double.parseDouble(FATML.getText()));
-        
-        meal.setCarbs_ML(
-            Double.parseDouble(CARBML.getText()));
-        
-        DefaultTableModel model = (DefaultTableModel) ML_table.getModel();
-
-            model.addRow(new Object[]{
-                meal.getMeal_ML(),
-                meal.getCals_ML(),
-                meal.getPro_ML(),
-                meal.getCarbs_ML(),
-                meal.getFib_ML(),
-                meal.getFat_ML(),
-                wh.getName(),
-                wh.getDate()
-            });
-            
-            totalCals_ML += meal.getCals_ML();
-            totalPro_ML += meal.getPro_ML();
-            totalCarbs_ML += meal.getCarbs_ML();
-            totalFib_ML += meal.getFib_ML();
-            totalFat_ML += meal.getFat_ML();
-            
-            double proPercent = tracker.calcPro(totalPro_ML, goal.getProG());
-            double calPercent = tracker.calcCals(totalCals_ML, goal.getCalsG());
-            double carbPercent = tracker.calcCarbs(totalCarbs_ML, goal.getCarbsG());
-            double fibPercent = tracker.calcFib(totalFib_ML, goal.getFibG());
-            double fatPercent = tracker.calcFat(totalFat_ML, goal.getFatG());
-            
-            Pro_per.setText((int)proPercent + "%");
-            Cal_per.setText((int)calPercent + "%");
-            Carb_per.setText((int)carbPercent + "%");
-            Fib_Per.setText((int)fibPercent + "%");
-            Fat_per.setText((int)fatPercent + "%");
-            
-            Pro_bar.setValue((int)proPercent);
-            Cal_bar.setValue((int)calPercent);
-            Carb_bar.setValue((int)carbPercent);
-            Fib_bar.setValue((int)fibPercent);
-            Fat_bar.setValue((int)fatPercent);
     }//GEN-LAST:event_ADDMLActionPerformed
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
@@ -635,11 +705,33 @@ public class NutritionGUI extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) ML_table.getModel();
 
             model.setRowCount(0);
+        
+            meals.clear();
     }//GEN-LAST:event_resetActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void searchtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchtxtActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_searchtxtActionPerformed
+
+    private void SEARCHbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SEARCHbuttonActionPerformed
+        // TODO add your handling code here:
+        String searchMeal = searchtxt.getText();
+        //searchs table
+        for(int i =0;i<ML_table.getRowCount();i++){
+            String mealName=ML_table.getValueAt(i,0).toString();
+            //highlights row
+            if(mealName.equalsIgnoreCase(searchMeal)){
+                ML_table.setRowSelectionInterval(i,i);
+                return;
+            }
+        } 
+            
+        
+        javax.swing.JOptionPane.showMessageDialog(this,"meal not found");
+    }//GEN-LAST:event_SEARCHbuttonActionPerformed
+    
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -690,6 +782,7 @@ public class NutritionGUI extends javax.swing.JFrame {
     private javax.swing.JTextPane Pro_G;
     private javax.swing.JProgressBar Pro_bar;
     private javax.swing.JLabel Pro_per;
+    private javax.swing.JButton SEARCHbutton;
     private javax.swing.JPanel T_Panel;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -729,6 +822,7 @@ public class NutritionGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton reset;
+    private javax.swing.JTextField searchtxt;
     private javax.swing.JButton setGoal_button;
     // End of variables declaration//GEN-END:variables
 }
